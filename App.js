@@ -1,20 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import Router from "./src/routes";
+import store from "./src/stores"
+import { Provider } from 'react-redux';
+
+import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "#2A3F93",
+  }
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Merhaba, DORUK!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider theme={theme}>
+      <Provider store={store}>
+        <Router />
+      </Provider>
+    </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
