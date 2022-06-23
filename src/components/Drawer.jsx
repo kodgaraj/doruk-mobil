@@ -8,13 +8,18 @@ import {
 } from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { logout } from '../stores/auth';
+import { useLoading } from "../utils/LoadingContext";
 
 function DrawerContent(props) {
   const { navigation } = props;
   const dispatch = useDispatch();
+  const { setLoading } = useLoading();
 
   const handleLogout = () => {
-    dispatch(logout());
+    setLoading(true);
+    dispatch(logout()).then(() => {
+      setLoading(false);
+    });
   }
 
   return (

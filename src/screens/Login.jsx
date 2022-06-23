@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import {
   Avatar,
@@ -8,8 +8,11 @@ import {
   Paragraph,
   TextInput,
 } from "react-native-paper";
-import { useDispatch } from 'react-redux';
-import { login } from "../stores/auth";
+import { useDispatch } from "react-redux";
+import { login, oturumKontrol } from "../stores/auth";
+import axios from "axios";
+import { toLower } from "lodash";
+import { useLoading } from "../utils/LoadingContext";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -17,15 +20,37 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
+  const { loading, setLoading } = useLoading();
 
   const handleLogin = () => {
     const payload = {
-      email,
-      password,
+      email: toLower(email),
+      password: password,
     };
 
-    dispatch(login(payload));
+    setLoading(true);
+    console.log("payload loading", payload);
+    axios
+      .post("/giris", payload)
+      .then(async (res) => {
+        if (!res.data.status) {
+          setLoading(false);
+          return alert(res.data.message);
+        }
+
+        await dispatch(login(res.data.data));
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   };
+
+  // useEffect(() => {
+  //   console.log("Yükleniyor atılacak");
+  //   // dispatch(oturumKontrol());
+  // }, [1]);
 
   return (
     <View style={styles.container}>
@@ -55,7 +80,7 @@ function Login() {
                 label="E-posta"
                 value={email}
                 dense
-                onChange={(text) => {
+                onChangeText={(text) => {
                   setEmail(text);
                 }}
               ></TextInput>
@@ -66,25 +91,24 @@ function Login() {
                 value={password}
                 dense
                 secureTextEntry={!showPassword}
-                onChange={(text) => {
+                onChangeText={(text) => {
                   setPassword(text);
                 }}
                 right={
-                  password && <TextInput.Icon
-                    name={!showPassword ? "eye" : "eye-off"}
-                    onPress={() => {
-                      setShowPassword(!showPassword);
-                    }}
-                  />
+                  password && (
+                    <TextInput.Icon
+                      name={!showPassword ? "eye" : "eye-off"}
+                      onPress={() => {
+                        setShowPassword(!showPassword);
+                      }}
+                    />
+                  )
                 }
               ></TextInput>
             </View>
           </Card.Content>
           <Card.Actions style={styles.row}>
-            <Button
-              mode="contained"
-              onPress={handleLogin}
-            >
+            <Button mode="contained" onPress={handleLogin}>
               GİRİŞ YAP
             </Button>
           </Card.Actions>
