@@ -10,19 +10,33 @@ import SplashScreen from "../components/SplashScreen";
 import { oturumKontrol } from "../stores/auth";
 
 function Router() {
+  // Global Splash Screen loading setleme ve durumunu almak için kullanılır.
   const { loading, setLoading } = useLoading();
+
+  // Redux'taki bir fonksiyonu çalıştırmak için dispatch kullanılır.
   const dispatch = useDispatch();
-  console.log("loading", loading);
+
+  // Redux'tan user state'i alıyoruz.
+  const { user } = useSelector((state) => state.auth);
+
   console.log("user", user);
 
+  // Component çalıştığında oturum kontrolü yapılıyor.
+  // Not: Başlangıçta tek sefer çalışması için 2. parametre [0] şeklinde ayarladık.
   useEffect(() => {
+    // SplashScreen loading
     setLoading(true);
+
+    // Oturum kontrolü
     dispatch(oturumKontrol()).then(() => {
+      // Kontrol tamamlandıktan sonra SplashScreen loading kapatılıyor
       setLoading(false);
     });
-  }, [1]);
+  }, [0]);
 
-  const { user } = useSelector((state) => state.auth);
+  // Eğer loading aktif ise SplashScreen kullanılıyor.
+  // Değilse state'deki user bilgisi varsa DrawerTemplate (Panel Ekranı) kullanılıyor.
+  // Değilse StackTemplate (Login Ekranı) kullanılıyor.
   return (
     <>
       <NavigationContainer>
