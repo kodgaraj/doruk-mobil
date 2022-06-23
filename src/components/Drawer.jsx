@@ -11,13 +11,17 @@ import { logout } from '../stores/auth';
 import { useLoading } from "../utils/LoadingContext";
 
 function DrawerContent(props) {
-  const { navigation } = props;
   const dispatch = useDispatch();
   const { setLoading } = useLoading();
 
+  // Çıkış fonksiyonu
   const handleLogout = () => {
+    // Loading setleniyor
     setLoading(true);
+
+    // Çıkış yapılıyor
     dispatch(logout()).then(() => {
+      // Loading kapatılıyor
       setLoading(false);
     });
   }
@@ -37,34 +41,6 @@ function DrawerContent(props) {
           label="Çıkış Yap"
           onPress={handleLogout}
         />
-        {/* <DrawerItem
-          icon={({ focused, color, size }) => <FontAwesome5 name={'cart-plus'} />}
-          label="Sipariş Formu"
-          onPress={() => {
-            navigation.navigate('Siparisler');
-          }}
-        />
-        <DrawerItem
-          icon={({ focused, color, size }) => <FontAwesome5 name={'calendar-check'} />}
-          label="Isıl İşlem Formları"
-          onPress={() => {
-            navigation.navigate('Formlar');
-          }}
-        />
-        <DrawerItem
-          icon={({ focused, color, size }) => <FontAwesome5 name={'tasks'} />}
-          label="Isıl İşlemler"
-          onPress={() => {
-            navigation.navigate('Islemler');
-          }}
-        />
-        <DrawerItem
-          icon={({ focused, color, size }) => <FontAwesome5 name={'bell'} />}
-          label="Bildirimler"
-          onPress={() => {
-            navigation.navigate('Bildirimler');
-          }}
-        /> */}
       </Drawer.Section>
     </DrawerContentScrollView>
   )

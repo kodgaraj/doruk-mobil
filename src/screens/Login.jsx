@@ -10,11 +10,12 @@ import {
 } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { login, oturumKontrol } from "../stores/auth";
-import axios from "axios";
+import axios from "../utils/Axios";
 import { toLower } from "lodash";
 import { useLoading } from "../utils/LoadingContext";
 
 function Login() {
+  // Değişken tanımlamaları yapıldı
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -22,22 +23,28 @@ function Login() {
   const dispatch = useDispatch();
   const { loading, setLoading } = useLoading();
 
+  // Login butonuna tıklandığında çalışacak fonksiyon
   const handleLogin = () => {
+    // Veriler hazırlanıyor
     const payload = {
       email: toLower(email),
       password: password,
     };
 
+    // Loading setleniyor
     setLoading(true);
-    console.log("payload loading", payload);
+
+    // Giriş yapmak için API'ye istek gönderiliyor
     axios
       .post("/giris", payload)
       .then(async (res) => {
+        // Gelen sonuç başarısız ise hata mesajı gösteriliyor
         if (!res.data.status) {
           setLoading(false);
           return alert(res.data.message);
         }
 
+        // Giriş başarılı ise Redux'e user bilgisi gönderiliyor
         await dispatch(login(res.data.data));
         setLoading(false);
       })
@@ -46,11 +53,6 @@ function Login() {
         console.log(err);
       });
   };
-
-  // useEffect(() => {
-  //   console.log("Yükleniyor atılacak");
-  //   // dispatch(oturumKontrol());
-  // }, [1]);
 
   return (
     <View style={styles.container}>
