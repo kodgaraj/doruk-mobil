@@ -39,13 +39,13 @@ function Login() {
       .post("/giris", payload)
       .then(async (res) => {
         // Gelen sonuç başarısız ise hata mesajı gösteriliyor
-        if (!res.data.status) {
+        if (!res.data.durum) {
           setLoading(false);
-          return alert(res.data.message);
+          return alert(res.data.mesaj);
         }
 
         // Giriş başarılı ise Redux'e user bilgisi gönderiliyor
-        await dispatch(login(res.data.data));
+        await dispatch(login(res.data.kullanici));
         setLoading(false);
       })
       .catch((err) => {

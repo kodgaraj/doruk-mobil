@@ -19,8 +19,6 @@ function Router() {
   // Redux'tan user state'i alıyoruz.
   const { user } = useSelector((state) => state.auth);
 
-  console.log("user", user);
-
   // Component çalıştığında oturum kontrolü yapılıyor.
   // Not: Başlangıçta tek sefer çalışması için 2. parametre [0] şeklinde ayarladık.
   useEffect(() => {

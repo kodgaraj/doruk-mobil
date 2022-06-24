@@ -9,7 +9,6 @@ export const auth = createSlice({
 	},
 	reducers: {
 		setUser: (state, action) => {
-			// console.log(action.payload)
 			state.user = action.payload;
 		},
 		clearUser: state => {
@@ -29,7 +28,6 @@ const oturumKontrol = () => async dispatch => {
 	if (user) {
 		const parsedUser = JSON.parse(user)
 		dispatch(setUser(parsedUser))
-		console.log("oturum kontrolü", parsedUser.jwt)
 		axios.defaults.headers.common['Authorization'] = `Bearer ${parsedUser.jwt}`
 	}
 	return user
