@@ -78,7 +78,11 @@ function Home({ route, navigation }) {
 
   return (
     <View style={styles.sayfa}>
-      <Card style={styles.kart}>
+      <Card
+      onPress={()=>{
+        navigation.navigate("Siparisler")
+      }}
+      style={styles.kart}>
         <Card.Title
           title="Siparişler"
           left={(props) => (
