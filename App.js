@@ -9,6 +9,9 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: "#2A3F93",
+    danger: "#B61A4E", 
+    success: "#4CAF50",
+    warning: "#FFB022"
   }
 };
 
