@@ -26,9 +26,24 @@ const { setUser, clearUser } = auth.actions
 const oturumKontrol = () => async dispatch => {
 	const user = await Storage.getStorage('user')
 	if (user) {
-		const parsedUser = JSON.parse(user)
-		dispatch(setUser(parsedUser))
-		axios.defaults.headers.common['Authorization'] = `Bearer ${parsedUser.jwt}`
+		console.log('oturum kontrol', user)
+		try {
+			axios.defaults.headers.common['Authorization'] = `Bearer ${user.jwt}`
+
+			const sonuc = await axios.post('/api/oturumKontrol', {
+				user: user
+			});
+
+			if (sonuc.data.durum) {
+				dispatch(setUser(user))
+			}
+			else {
+				logout()
+			}
+		} catch (e) {
+			console.log(e, 'error')
+			logout()
+		}
 	}
 	return user
 }

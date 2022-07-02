@@ -4,14 +4,15 @@ async function setStorage(key, value) {
   await SecureStore.setItemAsync(key, value && JSON.stringify(value));
 }
 
-async function getStorage(key) {
-  return await SecureStore.getItemAsync(key);
-
-  // if (result) {
-  //   alert("🔐 Here's your value 🔐 \n" + result);
-  // } else {
-  //   alert('No values stored under that key.');
-  // }
+function getStorage(key) {
+  const value = new Promise((resolve, reject) => {
+    SecureStore.getItemAsync(key).then(value => {
+      resolve(value && JSON.parse(value));
+    }).catch(error => {
+      reject(error);
+    });
+  })
+  return value;
 }
 
 async function removeStorage(key) {

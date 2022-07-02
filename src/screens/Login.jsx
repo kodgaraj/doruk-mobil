@@ -9,7 +9,7 @@ import {
   TextInput,
 } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { login, oturumKontrol } from "../stores/auth";
+import { login } from "../stores/auth";
 import axios from "../utils/Axios";
 import { toLower } from "lodash";
 import { useLoading } from "../utils/LoadingContext";
