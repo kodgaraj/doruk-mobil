@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import axios from "../utils/Axios";
 import { useState, useEffect } from "react";
-import { Avatar, Card, IconButton, Title, } from "react-native-paper";
+import { Avatar, Card, IconButton, Title } from "react-native-paper";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Loading from "../components/Loading";
 
@@ -79,10 +79,11 @@ function Home({ route, navigation }) {
   return (
     <View style={styles.sayfa}>
       <Card
-      onPress={()=>{
-        navigation.navigate("Siparisler")
-      }}
-      style={styles.kart}>
+        onPress={() => {
+          navigation.replace("Siparisler");
+        }}
+        style={styles.kart}
+      >
         <Card.Title
           title="Siparişler"
           left={(props) => (
@@ -93,7 +94,7 @@ function Home({ route, navigation }) {
               )}
             />
           )}
-          right={(props) => (
+          right={(props) =>
             toplamSiparis.yukleniyor ? (
               <Loading style={styles.toplamYazi} />
             ) : (
@@ -101,7 +102,7 @@ function Home({ route, navigation }) {
                 {toplamSiparis.toplamSiparis}
               </Title>
             )
-          )}
+          }
         />
       </Card>
       <Card style={styles.kart}>
@@ -115,7 +116,7 @@ function Home({ route, navigation }) {
               )}
             />
           )}
-          right={(props) => (
+          right={(props) =>
             toplamKullanici.yukleniyor ? (
               <Loading style={styles.toplamYazi} />
             ) : (
@@ -123,7 +124,7 @@ function Home({ route, navigation }) {
                 {toplamKullanici.toplamKullanici}
               </Title>
             )
-          )}
+          }
         />
       </Card>
       <Card style={styles.kart}>
@@ -137,13 +138,13 @@ function Home({ route, navigation }) {
               )}
             />
           )}
-          right={(props) => (
+          right={(props) =>
             toplamIslem.yukleniyor ? (
               <Loading style={styles.toplamYazi} />
             ) : (
               <Title style={styles.toplamYazi}>{toplamIslem.toplamIslem}</Title>
             )
-          )}
+          }
         />
       </Card>
     </View>

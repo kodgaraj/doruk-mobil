@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { memo } from "react";
 import { ActivityIndicator } from "react-native-paper";
 
-export default function SplashScreen() {
+function SplashScreen() {
   return (
     <View style={styles.container}>
       <ActivityIndicator animating={true} />
@@ -23,3 +23,5 @@ const styles = StyleSheet.create({
     // backgroundColor: "rgba(0,0,0,0.5)",
   },
 });
+
+export default memo(SplashScreen);

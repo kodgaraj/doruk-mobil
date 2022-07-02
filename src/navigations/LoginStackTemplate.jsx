@@ -1,11 +1,11 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View, Text } from "react-native";
+import React, { memo } from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../screens/Login";
 
 const Stack = createNativeStackNavigator();
 
-export default function StackTemplate() {
+function LoginStackTemplate() {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -18,3 +18,5 @@ export default function StackTemplate() {
     </Stack.Navigator>
   );
 }
+
+export default memo(LoginStackTemplate);
