@@ -255,12 +255,12 @@ const SiparisDetay = ({ route, navigation }) => {
                 >
                   <List.Item
                     key={index + "Buton"}
-                    onPress={() => resimAc(islem)}
+                    onPress={() => resimAc(islem.resim)}
                     title="Resim"
                     style={styles.accordionBg}
                     right={(props) => (
                       <Button
-                        onPress={() => resimAc(islem)}
+                        onPress={() => resimAc(islem.resim)}
                         title="Resmi Görüntüle"
                       ></Button>
                     )}
