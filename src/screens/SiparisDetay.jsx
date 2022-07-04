@@ -410,6 +410,11 @@ const styles = StyleSheet.create({
   islemlerContainer: {
     marginBottom: 20,
   },
+  itemText: {
+    fontWeight: "bold",
+    fontSize: 16,
+    marginTop: 3,
+  },
 });
 
 export default SiparisDetay;
