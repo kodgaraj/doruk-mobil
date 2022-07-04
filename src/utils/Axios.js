@@ -1,5 +1,6 @@
 import axios from 'axios';
+import { API_URL } from '../config';
 
-axios.defaults.baseURL = "https://dev.doruk.kodgaraj.com/api";
+axios.defaults.baseURL = `${API_URL}/api`;
 
 export default axios;

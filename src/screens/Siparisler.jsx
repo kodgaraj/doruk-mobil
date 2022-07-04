@@ -181,7 +181,7 @@ export default function Siparisler({ navigation }) {
                         key={index + "islem-sayisi"}
                         onPress={() => {
                           navigation.navigate("SiparisDetay", {
-                            siparisId: siparis.siparisId,
+                            siparis,
                           });
                         }}
                         title="İşlem Sayısı"

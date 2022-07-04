@@ -26,7 +26,6 @@ const { setUser, clearUser } = auth.actions
 const oturumKontrol = () => async dispatch => {
 	const user = await Storage.getStorage('user')
 	if (user) {
-		console.log('oturum kontrol', user)
 		try {
 			axios.defaults.headers.common['Authorization'] = `Bearer ${user.jwt}`
 

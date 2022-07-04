@@ -2,7 +2,9 @@ import { useLayoutEffect } from "react";
 import { Button } from "react-native-paper";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
-const GeriButon = ({ navigation }) => {
+const GeriButon = (props) => {
+  const { navigation } = props;
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTransparent: "true",
@@ -15,6 +17,7 @@ const GeriButon = ({ navigation }) => {
           style={{ marginLeft: -10 }}
         />
       ),
+      ...props,
     });
   }, []);
 

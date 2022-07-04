@@ -21,6 +21,7 @@ import Formlar from "../screens/Formlar";
 import Islemler from "../screens/Islemler";
 import Bildirimler from "../screens/Bildirimler";
 import SiparisDetay from "../screens/SiparisDetay";
+import ResimOnizleme from "../screens/ResimOnizleme";
 
 // Stores
 import { oturumKontrol } from "../stores/auth";
@@ -83,16 +84,6 @@ const PanelStackTemplate = (props) => {
         }}
       />
       <Stack.Screen
-        name="SiparisDetay"
-        component={SiparisDetay}
-        options={{
-          title: "Siparişler",
-          drawerIcon: ({ color, size }) => (
-            <FontAwesome5 name={"cart-plus"} size={size} color={color} />
-          ),
-        }}
-      />
-      <Stack.Screen
         name="Formlar"
         component={Formlar}
         options={{
@@ -122,6 +113,19 @@ const PanelStackTemplate = (props) => {
           ),
         }}
       />
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen name="ResimOnizleme" component={ResimOnizleme} />
+        <Stack.Screen
+          name="SiparisDetay"
+          component={SiparisDetay}
+          options={{
+            title: "Siparişler",
+            drawerIcon: ({ color, size }) => (
+              <FontAwesome5 name={"cart-plus"} size={size} color={color} />
+            ),
+          }}
+        />
+      </Stack.Group>
     </Stack.Navigator>
   );
 };
