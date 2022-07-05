@@ -144,7 +144,11 @@ export default function Formlar({ navigation }) {
                       />
                       <List.Item
                         key={index + "islem-sayisi"}
-                        onPress={() => {}}
+                        onPress={() => {
+                          navigation.navigate("FormDetay", {
+                            form,
+                          });
+                        }}
                         title="İşlem Sayısı"
                         style={styles.accordionBg}
                         right={(props) => (
