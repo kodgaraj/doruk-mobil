@@ -22,7 +22,7 @@ import Loading from "../components/Loading";
 
 const SiparisDetay = ({ route, navigation }) => {
   const theme = useTheme();
-  const { siparis } = route.params;
+  const { siparis, detaylariGetir = false } = route.params;
   const [yukleniyor, setYukleniyor] = useState(true);
   const [siparisBilgileri, setSiparisBilgileri] = useState({
     veriler: {
@@ -59,6 +59,7 @@ const SiparisDetay = ({ route, navigation }) => {
         const res = await axios.get("/siparis/siparisDetay", {
           params: {
             siparisId: siparis.siparisId,
+            detaylariGetir,
           },
         });
 
@@ -139,8 +140,12 @@ const SiparisDetay = ({ route, navigation }) => {
           islem.net = islem.miktar - islem.dara;
         });
 
+        const siparisDetaylari = detaylariGetir
+          ? res.data.veriler.siparisDetaylari
+          : siparisBilgileri;
+        console.log(siparisDetaylari);
         setSiparisBilgileri({
-          ...siparisBilgileri,
+          ...siparisDetaylari,
           yukleniyor: false,
           veriler: {
             ...siparisBilgileri.veriler,
@@ -268,6 +273,7 @@ const SiparisDetay = ({ route, navigation }) => {
                     style={styles.accordionBg}
                     right={(props) => (
                       <Button
+                        key={index + "Buton2"}
                         onPress={() => resimAc(islem.resim)}
                         title="Resmi Görüntüle"
                       ></Button>

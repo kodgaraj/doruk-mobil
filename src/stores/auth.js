@@ -53,7 +53,19 @@ const login = user => async dispatch => {
 	return await Storage.setStorage('user', user);
 }
 
-const logout = () => async dispatch => {
+const logout = () => async (dispatch, getState) => {
+	const { user } = getState().auth;
+	if (user) {
+		try {
+			await axios.post("/api/cikis", {
+				kullaniciId: user.id
+			});
+		}
+		catch (e) {
+			console.log(e, 'error')
+			console.log(e.response.data)
+		}
+	}
 	dispatch(clearUser())
 	axios.defaults.headers.common['Authorization'] = null
 	return await Storage.removeStorage('user');

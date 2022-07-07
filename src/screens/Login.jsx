@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { View, KeyboardAvoidingView, Platform,TouchableWithoutFeedback, Keyboard, StyleSheet, ImageBackground } from "react-native";
+import {
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  StyleSheet,
+  ImageBackground,
+} from "react-native";
 import {
   Avatar,
   Button,
@@ -8,7 +16,7 @@ import {
   Paragraph,
   TextInput,
 } from "react-native-paper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../stores/auth";
 import axios from "../utils/Axios";
 import { toLower } from "lodash";
@@ -23,12 +31,15 @@ function Login() {
   const dispatch = useDispatch();
   const { loading, setLoading } = useLoading();
 
+  const pushToken = useSelector((state) => state.pushToken.pushToken);
+
   // Login butonuna tıklandığında çalışacak fonksiyon
   const handleLogin = () => {
     // Veriler hazırlanıyor
     const payload = {
+      password,
+      pushToken,
       email: toLower(email),
-      password: password,
     };
 
     // Loading setleniyor
@@ -50,14 +61,16 @@ function Login() {
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
+        console.log(err.response);
+        alert("Hata oluştu!");
       });
   };
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}>
+      style={styles.container}
+    >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ImageBackground
           source={{

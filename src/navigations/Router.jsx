@@ -1,13 +1,19 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { Button, useTheme } from "react-native-paper";
+import { Linking } from "react-native";
+import * as Notifications from "expo-notifications";
 
 // Utils
 import { useLoading } from "../utils/LoadingContext";
+import { registerForPushNotification } from "../utils/PushNotification";
 
 // Components
 import LoginStackTemplate from "./LoginStackTemplate";
@@ -26,6 +32,7 @@ import FormDetay from "../screens/FormDetay";
 
 // Stores
 import { oturumKontrol } from "../stores/auth";
+import { setPushToken } from "../stores/pushToken";
 
 const Stack = createNativeStackNavigator();
 
@@ -174,6 +181,14 @@ function PanelDrawerTemplate() {
   );
 }
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
+
 function Router() {
   // Global Splash Screen loading setleme ve durumunu almak için kullanılır.
   const { loading, setLoading } = useLoading();
@@ -183,6 +198,8 @@ function Router() {
 
   // Redux'tan user state'i alıyoruz.
   const { user } = useSelector((state) => state.auth);
+
+  const navigationRef = useNavigationContainerRef();
 
   // Component çalıştığında oturum kontrolü yapılıyor.
   // Not: Başlangıçta tek sefer çalışması için 2. parametre [] şeklinde ayarladık.
@@ -195,14 +212,82 @@ function Router() {
       // Kontrol tamamlandıktan sonra SplashScreen loading kapatılıyor
       setLoading(false);
     });
+
+    registerForPushNotification().then((token) => {
+      dispatch(setPushToken(token));
+    });
   }, []);
+
+  const LinkingConfiguration = {
+    config: {},
+    async getInitialURL() {
+      // First, you may want to do the default deep link handling
+      // Check if app was opened from a deep link
+      let url = await Linking.getInitialURL();
+
+      if (url != null) {
+        return url;
+      }
+
+      // Handle URL from expo push notifications
+      const response = await Notifications.getLastNotificationResponseAsync();
+      url = response?.notification.request.content.data;
+
+      return url;
+    },
+    subscribe(listener) {
+      const onReceiveURL = ({ url }: { url: string }) => listener(url);
+
+      // Listen to incoming links from deep linking
+      const linkingUrlListener = Linking.addEventListener("url", onReceiveURL);
+
+      // Listen to expo push notifications
+      const subscription =
+        Notifications.addNotificationResponseReceivedListener((response) => {
+          const { url, bildirimId } =
+            response.notification.request.content.data;
+
+          if (url) {
+            const urlBilgileri = url.split("/");
+            if (urlBilgileri[1] === "SiparisDetay") {
+              const id = urlBilgileri[2];
+              navigationRef.current?.navigate("SiparisDetay", {
+                siparis: {
+                  siparisId: Number(id),
+                },
+                detaylariGetir: true,
+              });
+            } else if (urlBilgileri[1] === "FormDetay") {
+              const id = urlBilgileri[2];
+              navigationRef.current?.navigate("FormDetay", {
+                form: { formId: Number(id) },
+              });
+              listener(`/FormDetay/${id}`);
+            } else {
+              navigationRef.current?.navigate("Bildirimler", {
+                bildirimId: Number(bildirimId),
+              });
+            }
+
+            // Let React Navigation handle the URL
+            listener(url);
+          }
+        });
+
+      return () => {
+        // Clean up the event listeners
+        linkingUrlListener.remove();
+        subscription.remove();
+      };
+    },
+  };
 
   // Eğer loading aktif ise SplashScreen kullanılıyor.
   // Değilse state'deki user bilgisi varsa PanelDrawerTemplate (Panel Ekranı) kullanılıyor.
   // Değilse LoginStackTemplate (Login Ekranı) kullanılıyor.
   return (
     <>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef} linking={LinkingConfiguration}>
         {loading ? (
           <SplashScreen />
         ) : user ? (
