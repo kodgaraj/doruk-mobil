@@ -244,34 +244,32 @@ function Router() {
       // Listen to expo push notifications
       const subscription =
         Notifications.addNotificationResponseReceivedListener((response) => {
-          const { url, bildirimId } =
-            response.notification.request.content.data;
+          const {
+            url,
+            kod,
+            bildirimId,
+            actionId = undefined,
+          } = response.notification.request.content.data;
 
-          if (url) {
-            const urlBilgileri = url.split("/");
-            if (urlBilgileri[1] === "SiparisDetay") {
-              const id = urlBilgileri[2];
-              navigationRef.current?.navigate("SiparisDetay", {
-                siparis: {
-                  siparisId: Number(id),
-                },
-                detaylariGetir: true,
-              });
-            } else if (urlBilgileri[1] === "FormDetay") {
-              const id = urlBilgileri[2];
-              navigationRef.current?.navigate("FormDetay", {
-                form: { formId: Number(id) },
-              });
-              listener(`/FormDetay/${id}`);
-            } else {
-              navigationRef.current?.navigate("Bildirimler", {
-                bildirimId: Number(bildirimId),
-              });
-            }
-
-            // Let React Navigation handle the URL
-            listener(url);
+          if (kod === "SIPARIS_BILDIRIMI") {
+            navigationRef.current?.navigate("SiparisDetay", {
+              siparis: {
+                siparisId: Number(actionId),
+              },
+              detaylariGetir: true,
+            });
+          } else if (kod === "FORM_BILDIRIMI") {
+            navigationRef.current?.navigate("FormDetay", {
+              form: { formId: Number(actionId) },
+            });
+          } else {
+            navigationRef.current?.navigate("Bildirimler", {
+              bildirimId: Number(bildirimId),
+            });
           }
+
+          // Let React Navigation handle the URL
+          listener(url);
         });
 
       return () => {
