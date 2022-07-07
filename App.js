@@ -12,9 +12,11 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: "#2A3F93",
+    secondary: "#616161",
     danger: "#B61A4E",
     success: "#4CAF50",
-    warning: "#FFB022"
+    warning: "#FFB022",
+    info: "#03a9f4"
   }
 };
 
@@ -52,7 +54,7 @@ export default function App() {
     // token cihaza özel üretiliyor, kulanıcı ile eşleştirilecek
     // https://expo.dev/notifications ile test yapılabilir
     // php sdk => https://github.com/ctwillie/expo-server-sdk-php
-    alert(token);
+    // alert(token);
     return token
   }
 
