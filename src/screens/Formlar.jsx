@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import axios from "../utils/Axios";
 import React, { useState, useEffect } from "react";
-import { List, Avatar, Badge, useTheme, Button } from "react-native-paper";
+import { Card, List, Chip, Avatar, useTheme, Button } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import Loading from "../components/Loading";
 import moment from "../utils/Moment";
@@ -88,6 +88,7 @@ export default function Formlar({ navigation }) {
             <>
               {formlar.formlar.data.map((form, index) => {
                 return (
+
                   <View key={index + "view"}>
                     <List.Accordion
                       key={index + "list"}
@@ -125,7 +126,7 @@ export default function Formlar({ navigation }) {
                             key={index + "baslangic-tarihi-text"}
                             style={styles.itemText}
                           >
-                            {form.baslangicTarihi}
+                            {form.baslangicTarihi ? moment(form.baslangicTarihi).format('L') : "-"}
                           </Text>
                         )}
                       />
@@ -138,7 +139,7 @@ export default function Formlar({ navigation }) {
                             key={index + "bitis-tarihi-text"}
                             style={styles.itemText}
                           >
-                            {form.bitisTarihi}
+                            {form.bitisTarihi ? moment(form.bitisTarihi).format('L') : "-"}
                           </Text>
                         )}
                       />
@@ -180,6 +181,8 @@ export default function Formlar({ navigation }) {
 const styles = StyleSheet.create({
   accordionBg: {
     backgroundColor: "#dddddd",
+    borderRadius: 5,
+    marginBottom: 5
   },
   itemText: {
     fontWeight: "bold",
@@ -198,4 +201,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  card: {
+    marginBottom: 15,
+  }
 });
