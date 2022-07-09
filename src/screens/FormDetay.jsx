@@ -93,189 +93,202 @@ const FormDetay = (props) => {
                   <Card style={styles.card}>
                     <Card.Title
                       title={firin.firinAdi}
-                      right={(props) => <Badge style={{ margin: 10, backgroundColor: theme.colors[firin.firinJson.renk] }}>{firin.firinKodu}</Badge>} />
+                      right={(props) => (
+                        <Badge
+                          style={{
+                            margin: 10,
+                            backgroundColor: theme.colors[firin.firinJson.renk],
+                          }}
+                        >
+                          {firin.firinKodu}
+                        </Badge>
+                      )}
+                    />
                     <Card.Content>
                       {sarjlar.map((sarj, index) => {
-                        const islemler = Object.values(sarj.islemler)
+                        const islemler = Object.values(sarj.islemler);
                         return (
                           <>
                             <Card>
                               <Card.Title title={sarj.sarj + ".Şarj"} />
                               <Card.Content>
                                 {islemler.map((islem, index) => {
-                                  const resim = API_URL +
-                                    (islem.resimYolu ? "/" + islem.resimYolu : "/no-image.jpg");
-                                  return (<>
-                                    <List.Accordion
-                                      title={islem.firmaAdi}
-                                      description={islem.malzemeAdi}
-                                      left={() => (
-                                        <Badge style={{ backgroundColor: theme.colors[islem.gecenSureRenk], alignSelf: 'center' }}>{islem.gecenSure + " gün"}</Badge>
-                                      )}
-                                      style={styles.accordionBg}>
-                                      <List.Item
-                                        title="İşlem Durumu"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.islemDurumAdi}
-                                          </Text>
+                                  const resim =
+                                    API_URL +
+                                    (islem.resimYolu
+                                      ? "/" + islem.resimYolu
+                                      : "/no-image.jpg");
+                                  return (
+                                    <>
+                                      <List.Accordion
+                                        title={islem.firmaAdi}
+                                        description={islem.malzemeAdi}
+                                        left={() => (
+                                          <Badge
+                                            style={{
+                                              backgroundColor:
+                                                theme.colors[
+                                                  islem.gecenSureRenk
+                                                ],
+                                              alignSelf: "center",
+                                            }}
+                                          >
+                                            {islem.gecenSure + " gün"}
+                                          </Badge>
                                         )}
-                                      />
-                                      <List.Item
-                                        title="Sipariş Tarihi"
                                         style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {moment(islem.siparisTarihi).format('L')}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="Sipariş No"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.siparisNo ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="İşlem Türü"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.islemTuruAdi ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="Termin Süresi"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.terminSuresi ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="Beklenen Süre"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.beklenenSure ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="Çıkış Süresi"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.cikisSuresi ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="Kalite"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.kalite ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="Carbon"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.carbon ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="Sıcaklık"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.sicaklik ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="Menevis Sıcaklığı"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.menevisSicakligi ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="İstenilen Sertlik"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.istenilenSertlik ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="Çıkış Sertliği"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.cikisSertligi ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="Son Sertlik"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.sonSertlik ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                      <List.Item
-                                        onPress={() => resimAc(resim)}
-                                        title="Resim"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Button
-                                            onPress={() => resimAc(resim)}
-                                            title="Resmi Görüntüle"
-                                          ></Button>
-                                        )}
-                                      />
-                                      <List.Item
-                                        title="Açıklama"
-                                        style={styles.accordionBg}
-                                        right={(props) => (
-                                          <Text
-                                            style={styles.itemText}>
-                                            {islem.aciklama ?? "-"}
-                                          </Text>
-                                        )}
-                                      />
-                                    </List.Accordion>
-                                  </>);
+                                      >
+                                        <List.Item
+                                          title="İşlem Durumu"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.islemDurumAdi}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Sipariş Tarihi"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {moment(
+                                                islem.siparisTarihi
+                                              ).format("L")}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Sipariş No"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.siparisNo ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="İşlem Türü"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.islemTuruAdi ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Termin Süresi"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.terminSuresi ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Beklenen Süre"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.beklenenSure ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Çıkış Süresi"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.cikisSuresi ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Kalite"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.kalite ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Carbon"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.carbon ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Sıcaklık"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.sicaklik ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Menevis Sıcaklığı"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.menevisSicakligi ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="İstenilen Sertlik"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.istenilenSertlik ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Çıkış Sertliği"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.cikisSertligi ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Son Sertlik"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.sonSertlik ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                        <List.Item
+                                          onPress={() => resimAc(resim)}
+                                          title="Resim"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Button
+                                              onPress={() => resimAc(resim)}
+                                              title="Resmi Görüntüle"
+                                            ></Button>
+                                          )}
+                                        />
+                                        <List.Item
+                                          title="Açıklama"
+                                          style={styles.accordionBg}
+                                          right={(props) => (
+                                            <Text style={styles.itemText}>
+                                              {islem.aciklama ?? "-"}
+                                            </Text>
+                                          )}
+                                        />
+                                      </List.Accordion>
+                                    </>
+                                  );
                                 })}
                               </Card.Content>
                             </Card>
@@ -300,7 +313,7 @@ const styles = StyleSheet.create({
   accordionBg: {
     backgroundColor: "#dddddd",
     borderRadius: 5,
-    marginBottom: 5
+    marginBottom: 5,
   },
   itemText: {
     fontWeight: "bold",
@@ -313,5 +326,5 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: 15,
-  }
+  },
 });

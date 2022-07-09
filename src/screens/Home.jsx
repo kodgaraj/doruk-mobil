@@ -127,7 +127,12 @@ function Home({ route, navigation }) {
           }
         />
       </Card>
-      <Card style={styles.kart}>
+      <Card
+        style={styles.kart}
+        onPress={() => {
+          navigation.replace("Islemler");
+        }}
+      >
         <Card.Title
           title="İşlemler"
           left={(props) => (

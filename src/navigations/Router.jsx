@@ -29,6 +29,7 @@ import Bildirimler from "../screens/Bildirimler";
 import SiparisDetay from "../screens/SiparisDetay";
 import ResimOnizleme from "../screens/ResimOnizleme";
 import FormDetay from "../screens/FormDetay";
+import IslemDetay from "../screens/IslemDetay";
 
 // Stores
 import { oturumKontrol } from "../stores/auth";
@@ -138,6 +139,16 @@ const PanelStackTemplate = (props) => {
           component={FormDetay}
           options={{
             title: "Form Detay",
+            // drawerIcon: ({ color, size }) => (
+            //   <FontAwesome5 name={"cart-plus"} size={size} color={color} />
+            // ),
+          }}
+        />
+        <Stack.Screen
+          name="IslemDetay"
+          component={IslemDetay}
+          options={{
+            title: "İşlem Detay",
             // drawerIcon: ({ color, size }) => (
             //   <FontAwesome5 name={"cart-plus"} size={size} color={color} />
             // ),
