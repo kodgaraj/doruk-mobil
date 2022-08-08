@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "chtsngn",
     "name": "doruk",
     "slug": "doruk",
     "version": "1.0.0",
@@ -24,7 +25,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.kodgaraj.doruk"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -1,4 +1,7 @@
 import * as Notifications from "expo-notifications";
+import { API_URL } from "../config";
+import store from "../stores";
+import { setShouldRedirectUrl } from "../stores/webViewUrl";
 
 async function registerForPushNotification() {
   let token;
@@ -26,11 +29,32 @@ async function registerForPushNotification() {
   }
 
   Notifications.addNotificationReceivedListener((notification) => {
-    console.log("notification geldi");
+    console.log("uygulamadayken notification geldi");
   });
 
   Notifications.addNotificationResponseReceivedListener((response) => {
-    console.log("bildirime tıklandı");
+    console.log(
+      "bildirime tıklandı",
+      response.notification.request.content.data
+    );
+    // const { webViewUrl } = store.getState();
+    // console.log(webViewUrl.webViewRef.current);
+    // webViewUrl?.current?.injectJavaScript(
+    //   `window.location.href = "${response.notification.request.content?.data?.link}";`
+    // );
+
+    store.dispatch(
+      setShouldRedirectUrl(
+        API_URL + response.notification.request.content.data.link
+      )
+    );
+
+    // const webViewRef = useSelector((state) => state.webViewUrl.webViewRef);
+    // if (webViewRef) {
+    //   webViewRef.current.injectJavaScript(
+    //     `window.location.href = '${response.notification.request.content.data.url}';`
+    //   );
+    // }
   });
 
   return token;
