@@ -8,6 +8,17 @@ import { setShouldRedirectUrl } from "../stores/webViewUrl";
 import SplashScreen from "../components/SplashScreen";
 import { StatusBar } from "react-native";
 import { useTheme } from "react-native-paper";
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
+
+const replaceSpecialChars = (str) => {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Remove accents
+    .replace(/([^\w]+|\s+)/g, "_") // Replace space and other characters by hyphen
+    .replace(/\-\-+/g, "_") // Replaces multiple hyphens by one hyphen
+    .replace(/(^-+|-+$)/g, ""); // Remove extra hyphens from beginning or end of the string
+};
 
 const Webview = () => {
   const runFirst = `
@@ -31,6 +42,53 @@ const Webview = () => {
     );
   }, []);
 
+  async function downloadFile(dosya, p = {}) {
+    const dosyaAdi = p.dosyaAdi ? replaceSpecialChars(p.dosyaAdi) : "Dosya";
+    const dosyaUzantisi = p.dosyaUzantisi || "pdf";
+    let mimeType = "application/pdf";
+    if (dosyaUzantisi === "docx") {
+      mimeType =
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    } else if (dosyaUzantisi === "xlsx") {
+      mimeType =
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    } else if (dosyaUzantisi === "pptx") {
+      mimeType =
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+    } else if (dosyaUzantisi === "jpg" || dosyaUzantisi === "jpeg") {
+      mimeType = "image/jpeg";
+    } else if (dosyaUzantisi === "png") {
+      mimeType = "image/png";
+    } else if (dosyaUzantisi === "gif") {
+      mimeType = "image/gif";
+    } else if (dosyaUzantisi === "txt") {
+      mimeType = "text/plain";
+    } else if (dosyaUzantisi === "doc") {
+      mimeType = "application/msword";
+    } else if (dosyaUzantisi === "xls") {
+      mimeType = "application/vnd.ms-excel";
+    } else if (dosyaUzantisi === "ppt") {
+      mimeType = "application/vnd.ms-powerpoint";
+    }
+
+    try {
+      const fileUri = `${
+        FileSystem.documentDirectory + dosyaAdi + "." + dosyaUzantisi
+      }`;
+      const [, base64] = dosya.split(",");
+      await FileSystem.writeAsStringAsync(fileUri, base64, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      Sharing.shareAsync(fileUri, {
+        mimeType,
+        dialosTitle: p.dosyaAdi ?? dosyaAdi,
+        UTI: mimeType,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // Çıkış fonksiyonu
   const handleLogout = () => {
     setLoading(true);
@@ -44,6 +102,11 @@ const Webview = () => {
     const veriler = JSON.parse(e.nativeEvent.data);
     if (veriler.kod === "CIKIS_YAPILDI") {
       handleLogout();
+    } else if (veriler.kod === "INDIR") {
+      downloadFile(veriler.dosya, {
+        dosyaAdi: veriler.dosyaAdi,
+        dosyaUzantisi: veriler.dosyaUzantisi,
+      });
     }
   };
 
@@ -55,6 +118,18 @@ const Webview = () => {
     setTimeout(() => {
       dispatch(setShouldRedirectUrl("/"));
     }, 200);
+  };
+
+  const onShouldStartLoadWithRequest = (request) => {
+    if (request.url.includes("blob:")) {
+      webViewRef.current.stopLoading();
+      return false;
+    }
+
+    // if (request.url.includes("about:blank")) {
+    //   webViewRef.current.stopLoading();
+    // }
+    return true;
   };
 
   return (
@@ -83,7 +158,21 @@ const Webview = () => {
           if (navState.url.includes("/login")) {
             handleLogout();
           }
+
+          // if (navState.url.includes("about:blank")) {
+          //   webViewRef.current.stopLoading();
+          // }
+
+          if (navState.url.includes("blob:")) {
+            webViewRef.current.stopLoading();
+          }
         }}
+        onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
+        javaScriptEnabled={true}
+        allowFileAccess={true}
+        allowingReadAccessToURL={true}
+        allowUniversalAccessFromFileURLs={true}
+        mixedContentMode="always"
       />
     </SafeAreaView>
   );
