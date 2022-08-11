@@ -3,13 +3,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useLoading } from "../utils/LoadingContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../stores/auth";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { setShouldRedirectUrl } from "../stores/webViewUrl";
-import SplashScreen from "../components/SplashScreen";
 import { StatusBar } from "react-native";
 import { useTheme } from "react-native-paper";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import Loading from "../components/Loading";
 
 const replaceSpecialChars = (str) => {
   return str
@@ -110,7 +110,9 @@ const Webview = () => {
     }
   };
 
-  const onLoadEnd = () => {};
+  const onLoadEnd = (event) => {
+    console.log("onLoadEnd", event.nativeEvent.loading);
+  };
 
   const onHttpError = (error) => {
     alert(error.description);
@@ -133,25 +135,30 @@ const Webview = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.primary }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.primary,
+      }}
+    >
       <StatusBar
         barStyle="light-content"
         backgroundColor={theme.colors.primary}
       />
+      {/* {isLoading && <SplashScreen />} */}
       <WebView
         originWhitelist={["*"]}
         setBuiltInZoomControls={false}
         source={{
           uri: shouldRedirectUrl,
         }}
-        containerStyle={{ flex: 1 }}
         injectedJavaScriptBeforeContentLoaded={runFirst}
         onMessage={onMessage}
         onLoadEnd={onLoadEnd}
         ref={webViewRef}
         pullToRefreshEnabled={true}
         startInLoadingState={true}
-        renderLoading={() => <SplashScreen />}
+        // renderLoading={() => <Loading />}
         onHttpError={onHttpError}
         onError={onHttpError}
         onNavigationStateChange={(navState) => {
@@ -172,7 +179,7 @@ const Webview = () => {
         allowFileAccess={true}
         allowingReadAccessToURL={true}
         allowUniversalAccessFromFileURLs={true}
-        mixedContentMode="always"
+        // mixedContentMode="always"
       />
     </SafeAreaView>
   );

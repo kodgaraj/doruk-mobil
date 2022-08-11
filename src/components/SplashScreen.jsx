@@ -1,11 +1,17 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import React, { memo } from "react";
 import { ActivityIndicator } from "react-native-paper";
 
 function SplashScreen() {
   return (
     <View style={styles.container}>
-      <ActivityIndicator animating={true} />
+      <ImageBackground
+        source={require("../../assets/splash.png")}
+        style={styles.image}
+        resizeMode="contain"
+      >
+        <ActivityIndicator animating={true} />
+      </ImageBackground>
     </View>
   );
 }
@@ -13,14 +19,12 @@ function SplashScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-    top: 0,
-    left: 0,
+    backgroundColor: "#fff",
     // backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  image: {
+    flex: 1,
+    justifyContent: "center",
   },
 });
 
