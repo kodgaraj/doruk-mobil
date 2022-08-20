@@ -21,6 +21,7 @@ import { login } from "../stores/auth";
 import axios from "../utils/Axios";
 import { toLower } from "lodash";
 import { useLoading } from "../utils/LoadingContext";
+import { API_URL } from "../config";
 
 function Login() {
   // Değişken tanımlamaları yapıldı
@@ -65,7 +66,7 @@ function Login() {
         alert("Hata oluştu!");
       });
   };
-
+//console.log(API_URL+"/img/doruk-logo.png");
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -83,7 +84,7 @@ function Login() {
             <View style={styles.coverContainer}>
               <ImageBackground
                 source={{
-                  uri: "https://doruk.kodgaraj.com/img/doruk-logo.png",
+                  uri: API_URL+"/img/doruk-logo.png",
                 }}
                 resizeMode="contain"
                 style={styles.cover}

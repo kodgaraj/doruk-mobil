@@ -1,1 +1,1 @@
-export const API_URL = 'https://dev.doruk.kodgaraj.com';
+export const API_URL = 'https://dorukisilislem.com';

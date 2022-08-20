@@ -10,6 +10,7 @@ import { useTheme } from "react-native-paper";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import Loading from "../components/Loading";
+import { API_URL } from "../config";
 
 const replaceSpecialChars = (str) => {
   return str
@@ -38,7 +39,7 @@ const Webview = () => {
 
   useEffect(() => {
     dispatch(
-      setShouldRedirectUrl("https://dev.doruk.kodgaraj.com/jwtLogin?jwt=" + jwt)
+      setShouldRedirectUrl(API_URL+"/jwtLogin?jwt=" + jwt)
     );
   }, []);
 

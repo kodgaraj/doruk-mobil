@@ -16,6 +16,7 @@ import {
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { logout } from "../stores/auth";
 import { useLoading } from "../utils/LoadingContext";
+import { API_URL } from "../config";
 
 function DrawerContent(props) {
   const { navigation } = props;
@@ -41,7 +42,7 @@ function DrawerContent(props) {
         <View style={styles.drawerImageContainer}>
           <Image
             style={styles.drawerImage}
-            source={{ uri: "https://doruk.kodgaraj.com/img/doruk-logo.png" }}
+            source={{ uri: API_URL+"/img/doruk-logo.png" }}
           />
         </View>
         <DrawerItem
