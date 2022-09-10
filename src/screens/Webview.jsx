@@ -38,9 +38,7 @@ const Webview = () => {
   const { jwt } = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    dispatch(
-      setShouldRedirectUrl(API_URL+"/jwtLogin?jwt=" + jwt)
-    );
+    dispatch(setShouldRedirectUrl(API_URL + "/jwtLogin?jwt=" + jwt));
   }, []);
 
   async function downloadFile(dosya, p = {}) {
@@ -180,6 +178,8 @@ const Webview = () => {
         allowFileAccess={true}
         allowingReadAccessToURL={true}
         allowUniversalAccessFromFileURLs={true}
+        mediaPlaybackRequiresUserAction={false}
+        allowsInlineMediaPlayback={true}
         // mixedContentMode="always"
       />
     </SafeAreaView>
