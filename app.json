@@ -1,9 +1,9 @@
 {
   "expo": {
-    "owner": "chtsngn",
-    "name": "doruk",
+    "owner": "kodgaraj",
+    "name": "Doruk",
     "slug": "doruk",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
