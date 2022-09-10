@@ -19,14 +19,18 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kodgaraj.doruk"
+      "bundleIdentifier": "com.kodgaraj.doruk",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Fotoğraf eklemek için kamera izni gereklidir."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.kodgaraj.doruk"
+      "package": "com.kodgaraj.doruk",
+      "permissions": [ "CAMERA", "WRITE_EXTERNAL_STORAGE", "CAMERA_ROLL" ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

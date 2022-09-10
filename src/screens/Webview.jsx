@@ -181,6 +181,9 @@ const Webview = () => {
         mediaPlaybackRequiresUserAction={false}
         allowsInlineMediaPlayback={true}
         // mixedContentMode="always"
+        useWebkit
+        javaScriptEnabledAndroid
+        bounces
       />
     </SafeAreaView>
   );
